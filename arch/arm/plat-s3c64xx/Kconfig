@@ -1,0 +1,32 @@
+# arch/arm/plat-s3c64xx/Kconfig
+#
+# Copyright 2007 Simtec Electronics
+#
+# Licensed under GPLv2
+
+config PLAT_S3C64XX
+	bool "S3C64XX Platform support"
+	depends on ARCH_S3C2410 && (CPU_S3C6400 || CPU_S3C6410)
+	default y if CPU_S3C6400
+	help
+	  Support for S3C6400 and S3C64XX series Samsung Mobile CPU based systems.
+
+if PLAT_S3C64XX
+config S3C64XX_DMA
+	bool "S3C64XX DMA support"
+	depends on CPU_S3C6400 || CPU_S3C6410
+	help
+	  S3C6400(6410) DMA support. This is needed for drivers like sound which
+	  use the S3C6400(6410)'s DMA system to move data to and from the
+	  peripheral blocks.
+
+config S3C64XX_ADC
+	bool "S3C64XX ADC Driver"
+	depends on CPU_S3C6400 || CPU_S3C6410
+	help
+	  ADC (A/D Conversion) driver for Samsung S3C6400/6410.
+endif
+
+
+
+

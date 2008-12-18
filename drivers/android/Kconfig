@@ -1,0 +1,95 @@
+menu "Android"
+
+config ANDROID_RAM_CONSOLE
+	bool "RAM buffer console"
+	default n
+
+config ANDROID_RAM_CONSOLE_ENABLE_VERBOSE
+	bool "Enable verbose console messages"
+	default y
+	depends on ANDROID_RAM_CONSOLE
+
+menuconfig ANDROID_RAM_CONSOLE_ERROR_CORRECTION
+	bool "Enable error correction"
+	default n
+	depends on ANDROID_RAM_CONSOLE
+	select REED_SOLOMON
+	select REED_SOLOMON_ENC8
+	select REED_SOLOMON_DEC8
+
+if ANDROID_RAM_CONSOLE_ERROR_CORRECTION
+
+config ANDROID_RAM_CONSOLE_ERROR_CORRECTION_DATA_SIZE
+	int "Data data size"
+	default 128
+	help
+	  Must be a power of 2.
+
+config ANDROID_RAM_CONSOLE_ERROR_CORRECTION_ECC_SIZE
+	int "ECC size"
+	default 16
+
+config ANDROID_RAM_CONSOLE_ERROR_CORRECTION_SYMBOL_SIZE
+	int "Symbol size"
+	default 8
+
+config ANDROID_RAM_CONSOLE_ERROR_CORRECTION_POLYNOMIAL
+	hex "Polynomial"
+	default 0x19 if (ANDROID_RAM_CONSOLE_ERROR_CORRECTION_SYMBOL_SIZE = 4)
+	default 0x29 if (ANDROID_RAM_CONSOLE_ERROR_CORRECTION_SYMBOL_SIZE = 5)
+	default 0x61 if (ANDROID_RAM_CONSOLE_ERROR_CORRECTION_SYMBOL_SIZE = 6)
+	default 0x89 if (ANDROID_RAM_CONSOLE_ERROR_CORRECTION_SYMBOL_SIZE = 7)
+	default 0x11d if (ANDROID_RAM_CONSOLE_ERROR_CORRECTION_SYMBOL_SIZE = 8)
+	
+endif #ANDROID_RAM_CONSOLE_ERROR_CORRECTION
+
+config ANDROID_RAM_CONSOLE_EARLY_INIT
+	bool "Start ram console early"
+	default n
+	depends on ANDROID_RAM_CONSOLE
+
+config ANDROID_RAM_CONSOLE_EARLY_ADDR
+	hex "RAM console virtual address"
+	default 0
+	depends on ANDROID_RAM_CONSOLE_EARLY_INIT
+
+config ANDROID_RAM_CONSOLE_EARLY_SIZE
+	hex "RAM console buffer size"
+	default 0
+	depends on ANDROID_RAM_CONSOLE_EARLY_INIT
+
+config ANDROID_POWER
+	bool "Android power driver"
+	depends on PM && RTC_CLASS
+	default n
+
+config ANDROID_POWER_ALARM
+	bool "Android alarm driver"
+	depends on ANDROID_POWER
+	default y
+
+config ANDROID_POWER_STAT
+	bool "Android power driver lock stats"
+	depends on ANDROID_POWER
+	default y
+
+config ANDROID_LOGGER
+	bool "Android log driver"
+	default y
+
+config ANDROID_TIMED_GPIO
+	bool "Android timed gpio driver"
+	depends on GENERIC_GPIO
+	default y
+
+config ANDROID_BINDER_IPC
+	tristate "Binder IPC Driver"
+	default y
+
+config ANDROID_PARANOID_NETWORK
+	bool "Only allow certain groups to create sockets"
+	default y
+	help
+		none
+
+endmenu

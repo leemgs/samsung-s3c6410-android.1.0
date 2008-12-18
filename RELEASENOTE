@@ -1,0 +1,130 @@
+
+*****************************************************************
+*								*
+*	      Release Note for Samsung Linux Kernel		*
+*								*
+*****************************************************************
+
+Confidential Proprietary of Samsung Electronics Co., Ltd
+Copyright (c) 2008 Samsung Electronics, Inc. All Rights Reserved
+
+==================================================================
+* Important Notice
+==================================================================
+The information in this publication has been carefully checked and is 
+believed to be entirely accurate at the time of publication.
+Samsung assumes no responsibility, however, for possible errors or 
+omissions, or for any consequences resulting from the use of 
+the information contained herein.
+
+Samsung reserves the right to make changes in its products or 
+product specifications with the intent to improve function or 
+design at any time and without notice and is not required to 
+update this documentation to reflect such changes.
+
+This publication does not convey to a purchaser of semiconductor 
+devices described herein any license under the patent rights of 
+Samsung or others.
+
+Samsung makes no warranty, representation, or guarantee regarding 
+the suitability of its products for any particular purpose, 
+nor does Samsung assume any liability arising out of the application or 
+use of any product or circuit and specifically disclaims any and 
+all liability, including without limitation any consequential or 
+incidental damages.
+
+"Typical" parameters can and do vary in different applications.
+All operating parameters, including "Typicals" must be validated for 
+each customer application by the customer's technical experts. 
+
+Samsung products are not designed, intended, or authorized for 
+use as components in systems intended for surgical implant into the body, 
+for other applications intended to support or sustain life, or for 
+any other application in which the failure of the Samsung product 
+could create a situation where personal injury or death may occur.
+
+Should the Buyer purchase or use a Samsung product for any such 
+unintended or unauthorized application, the Buyer shall indemnify and 
+hold Samsung and its officers, employees, subsidiaries, affiliates, and 
+distributors harmless against all claims, costs, damages, expenses, and 
+reasonable attorney fees arising out of, either directly or indirectly, 
+any claim of personal injury or death that may be associated with such 
+unintended or unauthorized use, even if such claim alleges that 
+Samsung was negligent regarding the design or manufacture of said product
+
+Copyright (c) 2007-2008 Samsung Electronics Co.,Ltd. 
+All rights reserved. No part of this publication may be reproduced, 
+stored in a retrieval system, or transmitted in any form or by any means, 
+electric or mechanical, by photocopying, recording, or otherwise, without 
+the prior written consent of Samsung Electronics Co.,Ltd.
+
+Samsung Electronics Co., Ltd.
+San #24 Nongseo-Dong, Giheung-Gu
+Yongin-City Gyeonggi-Do, Korea
+446-711
+
+Home Page: http://www.samsungsemi.com/
+E-Mail: mobilesol.cs@samsung.com
+
+Printed in the Republic of Korea
+
+
+==================================================================
+* Basic Information
+==================================================================
+Kernel Version:	2.6.24
+Base Kernel:	2.6.24.2 from kernel.org
+Package Name:	s3c-linux-2.6.24
+Latest Release:	rel-3-0-1 (2008-11-07)
+Latest Tarball:	s3c-linux-2.6.24_rel-3-0-1_081107.tar.bz2
+
+
+==================================================================
+* Revision History
+==================================================================
+Rev		Date		Description of Change
+---------	----------	----------------------------------
+rel-2-2-5	2008-10-04	WM8990 support
+rel-2-2-6	2008-10-27	2 Ch I2S support
+rel-3-0-1	2008-11-07	G3D changes
+
+
+==================================================================
+* rel-3-0-1
+==================================================================
+* What's New?
+	- G3D device driver removed from built-in source
+	- Physical memory management interface support for G3D driver
+	- DMA mode for S3C6410 File-backed storage gadget support
+	- Save and Restore function support for Power Management
+
+* Fixes made in this update
+	- 
+
+* Known Issues
+	- 
+
+==================================================================
+* rel-2-2-6
+==================================================================
+* What's New?
+	- 2 Ch. I2S support for S3C6410
+
+* Fixes made in this update
+	- 
+
+* Known Issues
+	- 
+
+==================================================================
+* rel-2-2-5
+==================================================================
+* What's New?
+	- Non-multichannel I2S (I2S0) support for S3C6410
+	- I2S wm8990 codec support for S3C6410
+
+* Fixes made in this update
+	- 
+
+* Known Issues
+	- 

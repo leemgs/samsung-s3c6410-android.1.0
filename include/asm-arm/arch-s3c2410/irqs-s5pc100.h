@@ -1,0 +1,132 @@
+/* linux/include/asm-arm/arch-s3c2410/irqs-x5pc100.h
+ *
+ * Copyright (c) 2008-2009 Samsung Electronics
+ *   Ryu Euiyoul <real.ryu@gmail.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+*/
+
+
+#ifndef __ASM_ARCH_IRQS_H
+#define __ASM_ARCH_IRQS_H __FILE__
+
+#ifndef __ASM_ARM_IRQ_H
+#error "Do not include this directly, instead #include <asm/irq.h>"
+#endif
+
+#define S5PC100_CPUIRQ_OFFSET	 (0)
+
+#define S5PC100_IRQ(x) ((x) + S5PC100_CPUIRQ_OFFSET)
+
+/*
+ * VIC0: system, DMA, timer
+ */
+#define IRQ_EINT0	S5PC100_IRQ(0)
+#define IRQ_EINT1	S5PC100_IRQ(1)
+#define IRQ_EINT2	S5PC100_IRQ(2)
+#define IRQ_EINT3	S5PC100_IRQ(3)
+#define IRQ_EINT4	S5PC100_IRQ(4)
+#define IRQ_EINT5	S5PC100_IRQ(5)
+#define IRQ_EINT6	S5PC100_IRQ(6)
+#define IRQ_EINT7	S5PC100_IRQ(7)
+#define IRQ_EINT8	S5PC100_IRQ(8)
+#define IRQ_EINT9	S5PC100_IRQ(9)
+#define IRQ_EINT10	S5PC100_IRQ(10)
+#define IRQ_EINT11	S5PC100_IRQ(11)
+#define IRQ_EINT12	S5PC100_IRQ(12)
+#define IRQ_EINT13	S5PC100_IRQ(13)
+#define IRQ_EINT14	S5PC100_IRQ(14)
+#define IRQ_EINT15	S5PC100_IRQ(15)
+#define IRQ_EINT16_31	S5PC100_IRQ(16)
+#define IRQ_BATF	S5PC100_IRQ(17)
+#define IRQ_MDMA	S5PC100_IRQ(18)
+#define IRQ_PDMA0	S5PC100_IRQ(19)
+#define IRQ_PDMA1	S5PC100_IRQ(20)
+#define IRQ_TIMER0	S5PC100_IRQ(21)
+#define IRQ_TIMER1	S5PC100_IRQ(22)
+#define IRQ_TIMER2	S5PC100_IRQ(23)
+#define IRQ_TIMER3	S5PC100_IRQ(24)
+#define IRQ_TIMER4	S5PC100_IRQ(25)
+#define IRQ_SYSTIMER	S5PC100_IRQ(26)
+#define IRQ_WDT		S5PC100_IRQ(27)
+#define IRQ_RTC_ALARM	S5PC100_IRQ(28)
+#define IRQ_RTC_TIC	S5PC100_IRQ(29)
+#define IRQ_GPIOINT	S5PC100_IRQ(30)
+
+/*
+ * VIC1: ARM, power, memory, connectivity
+ */
+#define IRQ_CORTEX0	S5PC100_IRQ(32)
+#define IRQ_CORTEX1	S5PC100_IRQ(33)
+#define IRQ_CORTEX2	S5PC100_IRQ(34)
+#define IRQ_CORTEX3	S5PC100_IRQ(35)
+#define IRQ_CORTEX4	S5PC100_IRQ(36)
+#define IRQ_IEMAPC	S5PC100_IRQ(37)
+#define IRQ_IEMIEC	S5PC100_IRQ(38)
+#define IRQ_ONENAND	S5PC100_IRQ(39)
+#define IRQ_NFC		S5PC100_IRQ(40)
+#define IRQ_CFC		S5PC100_IRQ(41)
+#define IRQ_UART0	S5PC100_IRQ(42)
+#define IRQ_UART1	S5PC100_IRQ(43)
+#define IRQ_UART2	S5PC100_IRQ(44)
+#define IRQ_UART3	S5PC100_IRQ(45)
+#define IRQ_IIC		S5PC100_IRQ(46)
+#define IRQ_SPI0	S5PC100_IRQ(47)
+#define IRQ_SPI1	S5PC100_IRQ(48)
+#define IRQ_SPI2	S5PC100_IRQ(49)
+#define IRQ_IRDA	S5PC100_IRQ(50)
+#define IRQ_CAN0	S5PC100_IRQ(51)
+#define IRQ_CAN1	S5PC100_IRQ(52)
+#define IRQ_HSIRX	S5PC100_IRQ(53)
+#define IRQ_HSITX	S5PC100_IRQ(54)
+#define IRQ_UHOST	S5PC100_IRQ(55)
+#define IRQ_OTG		S5PC100_IRQ(56)
+#define IRQ_MSM		S5PC100_IRQ(57)
+#define IRQ_HSMMC0	S5PC100_IRQ(58)
+#define IRQ_HSMMC1	S5PC100_IRQ(59)
+#define IRQ_HSMMC2	S5PC100_IRQ(60)
+#define IRQ_MIPICSI	S5PC100_IRQ(61)
+#define IRQ_MIPIDSI	S5PC100_IRQ(62)
+
+/*
+ * VIC2: multimedia, audio, security
+ */
+#define IRQ_LCD0	S5PC100_IRQ(64)
+#define IRQ_LCD1	S5PC100_IRQ(65)
+#define IRQ_LCD2	S5PC100_IRQ(66)
+#define IRQ_LCD3	S5PC100_IRQ(67)
+#define IRQ_ROTATOR	S5PC100_IRQ(68)
+#define IRQ_FIMC0	S5PC100_IRQ(69)
+#define IRQ_FIMC1	S5PC100_IRQ(70)
+#define IRQ_FIMC2	S5PC100_IRQ(71)
+#define IRQ_JPEG	S5PC100_IRQ(72)
+#define IRQ_2D		S5PC100_IRQ(73)
+#define IRQ_3D		S5PC100_IRQ(74)
+#define IRQ_MIXER	S5PC100_IRQ(75)
+#define IRQ_HDMI	S5PC100_IRQ(76)
+#define IRQ_HDMI_I2C	S5PC100_IRQ(77)
+#define IRQ_MFC		S5PC100_IRQ(78)
+#define IRQ_TVENC	S5PC100_IRQ(79)
+#define IRQ_I2S0	S5PC100_IRQ(80)
+#define IRQ_I2S1	S5PC100_IRQ(81)
+#define IRQ_I2S2	S5PC100_IRQ(82)
+#define IRQ_AC97	S5PC100_IRQ(83)
+#define IRQ_PCM0	S5PC100_IRQ(84)
+#define IRQ_PCM1	S5PC100_IRQ(85)
+#define IRQ_SPDIF	S5PC100_IRQ(86)
+#define IRQ_ADC		S5PC100_IRQ(87)
+#define IRQ_PENDN	S5PC100_IRQ(88)
+#define IRQ_TC		IRQ_PENDN
+#define IRQ_KEYPAD	S5PC100_IRQ(89)
+#define IRQ_CG		S5PC100_IRQ(90)
+#define IRQ_SEC		S5PC100_IRQ(91)
+#define IRQ_SECRX	S5PC100_IRQ(92)
+#define IRQ_SECTX	S5PC100_IRQ(93)
+#define IRQ_SDMIRQ	S5PC100_IRQ(94)
+#define IRQ_SDMFIQ	S5PC100_IRQ(95)
+
+#define NR_IRQS (IRQ_SDMFIQ+1)
+
+#endif /* __ASM_ARCH_IRQ_H */

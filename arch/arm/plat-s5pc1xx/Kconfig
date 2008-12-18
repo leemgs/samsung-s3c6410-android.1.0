@@ -1,0 +1,24 @@
+# arch/arm/plat-s5pc1xx/Kconfig
+#
+# Licensed under GPLv2
+
+config PLAT_S5PC1XX
+	bool "S5PC1XX Platform support"
+	depends on ARCH_S3C2410 && CPU_S5PC100
+	default y if CPU_S5PC100
+	help
+	  Support for S5PC100 Samsung Mobile CPU based systems.
+
+if PLAT_S5PC1XX
+config S5PC1XX_DMA
+	bool "S5PC1XX DMA support"
+	depends on CPU_S5PC100
+	help
+	  S5PC100 DMA support. This is needed for drivers like sound which
+	  use the S5PC100's DMA system to move data to and from the
+	  peripheral blocks.
+endif
+
+
+
+

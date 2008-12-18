@@ -1,0 +1,89 @@
+menu "SoC Audio for the Samsung S3C"
+	depends on PLAT_S3C24XX && ARCH_S3C2410 && SND_SOC
+
+config SND_S3C_SOC
+	tristate "SoC Audio for the Samsung S3C chips"
+	depends on ARCH_S3C2410 && SND_SOC
+	select SND_PCM
+	help
+	  Say Y or M if you want to add support for codecs attached to
+	  the S3C AC97, I2S or SSP interface. You will also need
+	  to select the audio interfaces to support below.
+
+config SND_S3C_SOC_I2S
+	tristate
+
+config SND_S3C2450_SOC_I2S
+	tristate
+	
+config SND_SOC_I2S_V40
+	tristate
+
+config SND_S3C2443_SOC_AC97
+	tristate
+	select AC97_BUS
+	select SND_AC97_CODEC
+	select SND_SOC_AC97_BUS
+	
+config SND_S3C2450_SOC_AC97
+	tristate
+	select AC97_BUS
+	select SND_AC97_CODEC
+	select SND_SOC_AC97_BUS
+
+config SND_S3C24XX_SOC_SMDK2450_WM9713
+	tristate "SoC AC97 Audio support for SMDK2450 - WM9713"
+	depends on SND_S3C_SOC && (CPU_S3C2450 || CPU_S3C2416)
+	select SND_S3C2450_SOC_AC97
+	select SND_SOC_WM9713
+	help
+	  Say Y if you want to add support for SoC audio on smdk2450
+	  with the WM9713.
+choice
+        prompt "SMDK Record Path Select"
+	depends on SND_S3C24XX_SOC_SMDK2450_WM9713
+
+config SOUND_WM9713_INPUT_STREAM_LINE
+	bool "Input Stream is LINE-IN"
+	depends on SND_S3C24XX_SOC_SMDK2450_WM9713
+	help
+	  Say Y here to make input stream as LINE-IN.
+
+config SOUND_WM9713_INPUT_STREAM_MIC
+	bool "Input Stream is MIC"
+	depends on SND_S3C24XX_SOC_SMDK2450_WM9713
+	help
+	  Say Y here to make input stream as MIC.
+endchoice
+
+
+
+config SND_S3C24XX_SOC_NEO1973_WM8753
+	tristate "SoC I2S Audio support for NEO1973 - WM8753"
+	depends on SND_S3C_SOC && MACH_NEO1973_GTA01
+	select SND_S3C_SOC_I2S
+	select SND_SOC_WM8753
+	help
+	  Say Y if you want to add support for SoC audio on smdk2440
+	  with the WM8753.
+
+config SND_S3C24XX_SOC_SMDK2443_WM9710
+	tristate "SoC AC97 Audio support for SMDK2443 - WM9710"
+	depends on SND_S3C_SOC && MACH_SMDK2443
+	select SND_S3C2443_SOC_AC97
+	select SND_SOC_AC97_CODEC
+	help
+	  Say Y if you want to add support for SoC audio on smdk2443
+	  with the WM9710.
+
+config SND_S3C24XX_SOC_SMDK2450_WM8580
+	tristate "SoC I2S Audio support for SMDK2450 - WM8580"
+	depends on SND_S3C_SOC && (CPU_S3C2450 || CPU_S3C2416)
+	select SND_S3C2450_SOC_I2S
+	select SND_SOC_WM8580
+	select SND_SOC_I2S_V40
+	help
+	  Say Y if you want to add support for SoC audio on smdk2450
+	  with the WM8580.
+
+endmenu

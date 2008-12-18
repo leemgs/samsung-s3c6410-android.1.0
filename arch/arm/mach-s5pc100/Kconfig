@@ -1,0 +1,25 @@
+# arch/arm/mach-s5pc100/Kconfig
+#
+# Licensed under GPLv2
+
+menu "S5PC100 Machines"
+
+config MACH_SMDKC100
+	bool "SMDKC100"
+	select CPU_S5PC100
+	select MACH_SMDK
+	help
+	  Say Y here if you are using the S5PC100
+endmenu
+
+config CPU_S5PC100
+	bool
+	depends on ARCH_S3C2410
+	select S5PC100_PM if PM
+	help
+	  Support for S5PC100 Samsung Mobile CPU based systems.
+
+config S5PC100_PM
+	bool
+	help
+	  Internal config node to apply S5PC100 power management
