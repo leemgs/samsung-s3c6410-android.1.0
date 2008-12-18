@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
-# Linux kernel version: 2.6.24.2-lgs-android  dev-3-0-22
-# Fri Dec 12 21:36:05 2008
+# Linux kernel version: 2.6.24-26-lgs-android  dev-3-0-22
+# Thu Dec 18 23:22:05 2008
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
