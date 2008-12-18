@@ -1,0 +1,52 @@
+# arch/arm/mach-s3c6400/Kconfig
+#
+# Copyright 2007 Simtec Electronics
+#
+# Licensed under GPLv2
+
+menu "S3C6410 Machines"
+
+config MACH_SMDK6410
+	bool "SMDK6410"
+	select CPU_S3C6410
+	select MACH_SMDK
+	help
+	  Say Y here if you are using the SMDK6410
+	  
+config MACH_SMDK6430
+	bool "SMDK6430/6431"
+	select CPU_S3C6410
+	select MACH_SMDK
+	help
+	  Say Y here if you are using the SMDK6430
+
+config S3C6410_PDFW
+        tristate "S3C6410 Power Domain Framework"
+        depends on CPU_S3C6410
+        help
+          Install power domain framework for S3C6410
+
+config S3C6410_PDFW_PROC
+	bool "/proc filesystem support for pdfw"
+	depends on CPU_S3C6410 && S3C6410_PDFW
+	help
+		proc file system for S3C6410 Power Domain Framework
+
+config S3C6410_KDPMD
+	tristate "S3C6410 Kernel Dynamic Power Management Daemon"
+	depends on CPU_S3C6410	&& S3C6410_PDFW
+	help
+	  Install kernel dynamic power management daemon
+endmenu
+
+config CPU_S3C6410
+	bool
+	depends on ARCH_S3C2410
+	select S3C6410_PM if PM
+	help
+	  Support for S3C6410 Samsung Mobile CPU based systems.
+
+config S3C6410_PM
+	bool
+	help
+	  Internal config node to apply S3C6410 power management
