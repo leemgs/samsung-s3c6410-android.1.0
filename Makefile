@@ -1,7 +1,7 @@
 VERSION = 2
 PATCHLEVEL = 6
-SUBLEVEL = 24-26
-EXTRAVERSION = .9-lgs-android
+SUBLEVEL = 24
+EXTRAVERSION = .24-26-lgs-android
 EXTRAVERSION += $(shell echo ''; \
 			sed -n '/[dr][e][vl]-*[0-9]-*[0-9]-*[0-9]/p' Changelog | \
 			awk 'BEGIN {FS=":"} {last=$$1} END {print last}')
