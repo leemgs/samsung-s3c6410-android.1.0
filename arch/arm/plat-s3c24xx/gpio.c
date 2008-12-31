@@ -69,6 +69,7 @@ void s3c2410_gpio_cfgpin(unsigned int pin, unsigned int function)
 	/* modify the specified register wwith IRQs off */
 
 	local_irq_save(flags);
+	local_irq_disable();
 
 	con  = __raw_readl(base + 0x00);
 	con &= ~mask;
@@ -112,6 +113,7 @@ void s3c2410_gpio_pullup(unsigned int pin, unsigned int to)
 		return;
 
 	local_irq_save(flags);
+	local_irq_disable();
 
 	up = __raw_readl(base + 0x08);
 	up &= ~(0x3 << offs);
@@ -132,6 +134,7 @@ void s3c2410_gpio_pullup(unsigned int pin, unsigned int to)
 		return;
 
 	local_irq_save(flags);
+	local_irq_disable();
 
 	up = __raw_readl(base + 0x08);
 	up &= ~(1L << offs);
@@ -152,6 +155,7 @@ void s3c2410_gpio_setpin(unsigned int pin, unsigned int to)
 	unsigned long dat;
 
 	local_irq_save(flags);
+	local_irq_disable();
 
 	dat = __raw_readl(base + 0x04);
 	dat &= ~(1 << offs);
@@ -179,6 +183,7 @@ unsigned int s3c2410_modify_misccr(unsigned int clear, unsigned int change)
 	unsigned long misccr;
 
 	local_irq_save(flags);
+	local_irq_disable();
 	misccr = __raw_readl(S3C24XX_MISCCR);
 	misccr &= ~clear;
 	misccr ^= change;
@@ -266,6 +271,7 @@ void s3c_gpio_cfgpin(unsigned int pin, unsigned int function)
 	}
 
 	local_irq_save(flags);
+	local_irq_disable();
 
 	con  = __raw_readl(base + 0x00);
 	con &= ~mask;
@@ -282,6 +288,7 @@ unsigned int s3c_gpio_getcfg(unsigned int pin)
 {
 	void __iomem *base = gpio_base_offset[S3C_GPIO_BASE(pin)];
 	unsigned long mask;
+	unsigned long shift=0;
 
 	if ((pin < S3C_GPIO_BANKF)||((pin >=S3C_GPIO_BANKG)&&\
 		(pin<S3C_GPIO_BANKI))||((pin>=S3C_GPIO_BANKK)&&\
@@ -293,16 +300,18 @@ unsigned int s3c_gpio_getcfg(unsigned int pin)
 			(pin>=S3C_GPL8&&pin<=S3C_GPL14))
 		{
 			base = base + 0x04;
-			mask = 0xF << (S3C_GPIO_OFFSET(pin)*4 -32); 
+			shift = S3C_GPIO_OFFSET(pin)*4 - 32; 
+			mask = 0xF << shift; 
 		}
 
 	}
 	else
 	{
-		mask = 0x3 << S3C_GPIO_OFFSET(pin)*2;
+		shift = S3C_GPIO_OFFSET(pin)*2;
+		mask = 0x3 << shift;
 	}
 
-	return __raw_readl(base) & mask;
+	return ((__raw_readl(base) & mask) >> shift);
 }
 
 EXPORT_SYMBOL(s3c_gpio_getcfg);
@@ -325,6 +334,7 @@ void s3c_gpio_pullup(unsigned int pin, unsigned int to)
 	}
 
 	local_irq_save(flags);
+	local_irq_disable();
 
 	up = __raw_readl(base + 0x08);
 	up &= ~mask;
@@ -351,6 +361,7 @@ void s3c_gpio_setpin(unsigned int pin, unsigned int to)
 	}
 
 	local_irq_save(flags);
+	local_irq_disable();
 
 	dat = __raw_readl(base + 0x04);
 	dat &= ~(1 << offs);

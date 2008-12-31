@@ -412,10 +412,17 @@ config I2C_PROSAVAGE
 
 config I2C_S3C2410
 	tristate "S3C2410 I2C Driver"
-	depends on ARCH_S3C2410
+	depends on ARCH_S3C2410 && !PLAT_S3C64XX
 	help
 	  Say Y here to include support for I2C controller in the
 	  Samsung S3C2410 based System-on-Chip devices.
+
+config I2C_S3C64XX
+	tristate "S3C64XX I2C Driver"
+	depends on PLAT_S3C64XX
+	help
+	  Say Y here to include support for I2C controller in the
+	  Samsung S3C64XX based System-on-Chip devices.
 
 config I2C_SAVAGE4
 	tristate "S3 Savage 4"

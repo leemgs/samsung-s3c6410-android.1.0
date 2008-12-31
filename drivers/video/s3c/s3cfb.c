@@ -127,7 +127,7 @@ static int __init s3cfb_map_video_memory(s3c_fb_info_t *fbi)
 	return 0;
 }
 
-static void s3cfb_unmap_video_memory(s3c_fb_info_t *fbi)
+void s3cfb_unmap_video_memory(s3c_fb_info_t *fbi)
 {
 	dma_free_writecombine(fbi->dev, fbi->map_size_f1, fbi->map_cpu_f1,  fbi->map_dma_f1);
 
@@ -138,6 +138,8 @@ static void s3cfb_unmap_video_memory(s3c_fb_info_t *fbi)
 	if (s3c_fimd.unmap_video_memory)
 		(s3c_fimd.unmap_video_memory)(fbi);
 }
+
+EXPORT_SYMBOL(s3cfb_unmap_video_memory);
 
 /*
  *	s3cfb_check_var():
@@ -885,6 +887,7 @@ static int __init s3cfb_probe(struct platform_device *pdev)
 		}
 
 		printk(KERN_INFO "fb%d: %s frame buffer device\n", s3c_fb_info[index].fb.node, s3c_fb_info[index].fb.fix.id);
+
 	}
 
 	/* create device files */

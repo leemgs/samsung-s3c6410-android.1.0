@@ -85,6 +85,92 @@ int s3c_mem_ioctl(struct inode *inode, struct file *file, unsigned int cmd, unsi
 			
 			break;
 
+		case S3C_MEM_CACHEABLE_ALLOC:
+			mutex_lock(&mem_cacheable_alloc_lock);
+			if(copy_from_user(&param, (struct s3c_mem_alloc *)arg, sizeof(struct s3c_mem_alloc))){
+				mutex_unlock(&mem_cacheable_alloc_lock);			
+				return -EFAULT;
+			}
+			flag = MEM_ALLOC_CACHEABLE;
+			param.vir_addr = do_mmap(file, 0, param.size, PROT_READ|PROT_WRITE, MAP_SHARED, 0);
+			DEBUG("param.vir_addr = %08x, %d\n", param.vir_addr, __LINE__);
+			if(param.vir_addr == -EINVAL) {
+				printk("S3C_MEM_ALLOC FAILED\n");
+				flag = 0;
+				mutex_unlock(&mem_cacheable_alloc_lock);			
+				return -EFAULT;
+			}
+			param.phy_addr = physical_address;
+			DEBUG("KERNEL MALLOC : param.phy_addr = 0x%X \t size = %d \t param.vir_addr = 0x%X, %d\n", param.phy_addr, param.size, param.vir_addr, __LINE__);
+
+			if(copy_to_user((struct s3c_mem_alloc *)arg, &param, sizeof(struct s3c_mem_alloc))){
+				flag = 0;
+				mutex_unlock(&mem_cacheable_alloc_lock);
+				return -EFAULT;
+			}
+			flag = 0;
+			mutex_unlock(&mem_cacheable_alloc_lock);
+			
+			break;
+
+		case S3C_MEM_SHARE_ALLOC:		
+			mutex_lock(&mem_share_alloc_lock);
+			if(copy_from_user(&param, (struct s3c_mem_alloc *)arg, sizeof(struct s3c_mem_alloc))){
+				mutex_unlock(&mem_share_alloc_lock);
+				return -EFAULT;
+			}
+			flag = MEM_ALLOC_SHARE;
+			physical_address = param.phy_addr;
+			DEBUG("param.phy_addr = %08x, %d\n", physical_address, __LINE__);
+			param.vir_addr = do_mmap(file, 0, param.size, PROT_READ|PROT_WRITE, MAP_SHARED, 0);
+			DEBUG("param.vir_addr = %08x, %d\n", param.vir_addr, __LINE__);
+			if(param.vir_addr == -EINVAL) {
+				printk("S3C_MEM_SHARE_ALLOC FAILED\n");
+				flag = 0;
+				mutex_unlock(&mem_share_alloc_lock);
+				return -EFAULT;
+			}
+			DEBUG("MALLOC_SHARE : param.phy_addr = 0x%X \t size = %d \t param.vir_addr = 0x%X, %d\n", param.phy_addr, param.size, param.vir_addr, __LINE__);
+
+			if(copy_to_user((struct s3c_mem_alloc *)arg, &param, sizeof(struct s3c_mem_alloc))){
+				flag = 0;
+				mutex_unlock(&mem_share_alloc_lock);
+				return -EFAULT;		
+			}
+			flag = 0;			
+			mutex_unlock(&mem_share_alloc_lock);
+
+			break;
+
+		case S3C_MEM_CACHEABLE_SHARE_ALLOC:
+			mutex_lock(&mem_cacheable_share_alloc_lock);
+			if(copy_from_user(&param, (struct s3c_mem_alloc *)arg, sizeof(struct s3c_mem_alloc))){
+				mutex_unlock(&mem_cacheable_share_alloc_lock);
+				return -EFAULT;
+			}
+			flag = MEM_ALLOC_CACHEABLE_SHARE;
+			physical_address = param.phy_addr;
+			DEBUG("param.phy_addr = %08x, %d\n", physical_address, __LINE__);
+			param.vir_addr = do_mmap(file, 0, param.size, PROT_READ|PROT_WRITE, MAP_SHARED, 0);
+			DEBUG("param.vir_addr = %08x, %d\n", param.vir_addr, __LINE__);
+			if(param.vir_addr == -EINVAL) {
+				printk("S3C_MEM_SHARE_ALLOC FAILED\n");
+			flag = 0;
+				mutex_unlock(&mem_cacheable_share_alloc_lock);
+				return -EFAULT;
+			}
+			DEBUG("MALLOC_SHARE : param.phy_addr = 0x%X \t size = %d \t param.vir_addr = 0x%X, %d\n", param.phy_addr, param.size, param.vir_addr, __LINE__);
+			
+			if(copy_to_user((struct s3c_mem_alloc *)arg, &param, sizeof(struct s3c_mem_alloc))){
+				flag = 0;
+				mutex_unlock(&mem_cacheable_share_alloc_lock);
+				return -EFAULT;		
+			}
+			flag = 0;			
+			mutex_unlock(&mem_cacheable_share_alloc_lock);
+			
+			break;
+
 		case S3C_MEM_FREE:	
 			mutex_lock(&mem_free_lock);
 			if(copy_from_user(&param, (struct s3c_mem_alloc *)arg, sizeof(struct s3c_mem_alloc))){
@@ -111,41 +197,6 @@ int s3c_mem_ioctl(struct inode *inode, struct file *file, unsigned int cmd, unsi
 			}
 			
 			mutex_unlock(&mem_free_lock);
-			
-			break;
-
-		case S3C_MEM_SHARE_ALLOC:		
-			mutex_lock(&mem_share_alloc_lock);
-			if(copy_from_user(&param, (struct s3c_mem_alloc *)arg, sizeof(struct s3c_mem_alloc))){
-				mutex_unlock(&mem_share_alloc_lock);
-				return -EFAULT;
-			}
-			flag = MEM_ALLOC_SHARE;
-
-			physical_address = param.phy_addr;
-			DEBUG("param.phy_addr = %08x, %d\n", physical_address, __LINE__);
-
-			param.vir_addr = do_mmap(file, 0, param.size, PROT_READ|PROT_WRITE, MAP_SHARED, 0);
-			DEBUG("param.vir_addr = %08x, %d\n", param.vir_addr, __LINE__);
-
-			if(param.vir_addr == -EINVAL) {
-				printk("S3C_MEM_SHARE_ALLOC FAILED\n");
-				flag = 0;
-				mutex_unlock(&mem_share_alloc_lock);
-				return -EFAULT;
-			}
-
-			DEBUG("MALLOC_SHARE : param.phy_addr = 0x%X \t size = %d \t param.vir_addr = 0x%X, %d\n", param.phy_addr, param.size, param.vir_addr, __LINE__);
-
-			if(copy_to_user((struct s3c_mem_alloc *)arg, &param, sizeof(struct s3c_mem_alloc))){
-				flag = 0;
-				mutex_unlock(&mem_share_alloc_lock);
-				return -EFAULT;		
-			}
-
-			flag = 0;
-			
-			mutex_unlock(&mem_share_alloc_lock);
 			
 			break;
 
@@ -192,6 +243,7 @@ int s3c_mem_mmap(struct file* filp, struct vm_area_struct *vma)
 
 	switch (flag) { 
 	case MEM_ALLOC :
+	case MEM_ALLOC_CACHEABLE :		
 		virt_addr = kmalloc(size, GFP_DMA|GFP_ATOMIC);
 
 		if (virt_addr == NULL) {
@@ -202,17 +254,15 @@ int s3c_mem_mmap(struct file* filp, struct vm_area_struct *vma)
 		phys_addr = virt_to_phys(virt_addr);
 		physical_address = (unsigned int)phys_addr;
 
-		//DEBUG("MMAP_KMALLOC : phys addr = 0x%p\n", phys_addr);
 		pageFrameNo = __phys_to_pfn(phys_addr);
-		//DEBUG("MMAP_KMALLOC : PFN = 0x%x\n", pageFrameNo);
 		break;
 
 	case MEM_ALLOC_SHARE :
+	case MEM_ALLOC_CACHEABLE_SHARE :
 		DEBUG("MMAP_KMALLOC_SHARE : phys addr = 0x%08x, %d\n", physical_address, __LINE__);
 		
 		// page frame number of the address for the physical_address to be shared.
 		pageFrameNo = __phys_to_pfn(physical_address);
-		//DEBUG("MMAP_KMALLOC_SHARE: PFN = 0x%x\n", pageFrameNo);
 		DEBUG("MMAP_KMALLOC_SHARE : vma->end = 0x%08x, vma->start = 0x%08x, size = %d, %d\n", vma->vm_end, vma->vm_start, size, __LINE__);
 		break;
 
@@ -220,7 +270,9 @@ int s3c_mem_mmap(struct file* filp, struct vm_area_struct *vma)
 		break;
 	}
 	
-	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+	if( (flag == MEM_ALLOC) || (flag == MEM_ALLOC_SHARE) )
+		vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+	
 	vma->vm_flags |= VM_RESERVED;
 
 	if (remap_pfn_range(vma, vma->vm_start, pageFrameNo, size, vma->vm_page_prot)) {

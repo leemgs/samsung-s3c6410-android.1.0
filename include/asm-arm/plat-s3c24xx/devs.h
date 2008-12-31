@@ -39,7 +39,7 @@ extern struct platform_device s3c_device_jpeg;
 extern struct platform_device s3c_device_vpp;
 extern struct platform_device s3c_device_ide;
 
-extern struct platform_device s3c_device_2d;
+extern struct platform_device s3c_device_g2d;
 extern struct platform_device s3c_device_keypad;
 
 /* Multiple channel devices */

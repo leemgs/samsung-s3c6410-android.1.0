@@ -40,7 +40,6 @@
 #include <asm/hardware.h>
 #include <asm/io.h>
 
-//#include <asm/arch/regs-serial.h>
 #include <asm/arch/regs-s3c-clock.h>
 #include <asm/arch/regs-gpio.h>
 #include <asm/arch/regs-gpioj.h>
@@ -53,9 +52,6 @@
 
 #include <asm/plat-s3c24xx/pm.h>
 #include <asm/mach/irq.h>
-
-//#include <asm/arch/irqs.h>
-//#include <asm/plat-s3c24xx/irq.h>
 
 /* for external use */
 
@@ -239,24 +235,6 @@ static struct sleep_save sromc_save[] = {
 	SAVE_ITEM(S3C_SROM_BC4),
 	SAVE_ITEM(S3C_SROM_BC5),
 };
-#if 0
-#define SAVE_UART(va) \
-	SAVE_ITEM((va) + S3C_ULCON), \
-	SAVE_ITEM((va) + S3C_UCON), \
-	SAVE_ITEM((va) + S3C_UFCON), \
-	SAVE_ITEM((va) + S3C_UMCON), \
-	SAVE_ITEM((va) + S3C_UBRDIV), \
-	SAVE_ITEM((va) + S3C_UDIVSLOT), \
-	SAVE_ITEM((va) + S3C_UINTMSK)
-
-
-static struct sleep_save uart_save[] = {
-	SAVE_UART(S3C24XX_VA_UART0),
-	SAVE_UART(S3C24XX_VA_UART1),
-	SAVE_UART(S3C24XX_VA_UART2),
-	SAVE_UART(S3C24XX_VA_UART3),
-};
-#endif
 
 #endif
 
@@ -623,26 +601,15 @@ static void s3c6410_pm_configure_extint(void)
 	 * and then configure it as an input if it is not
 	*/
 
-//	s3c_irqext_type(IRQ_EINT10, IRQT_FALLING);
+
 	gpio_set_pin(S3C_GPN10, S3C_GPN10_EXTINT10);
 	gpio_pullup(S3C_GPN10, 2);
 	udelay(50);
-#if 0
-	do {
-		reg_val = readl(S3C_GPNCON);
-		check = (reg_val & (3<<20))>> 20;
-		if (++cnt > 10000) {
-			printk("%s: Oops! GPNCON EXTINT Setting Fail... EINTMASK:0x%x\n",
-				__FUNCTION__, reg_val);
-		}
-	} while (!(check == 2));
 
-	printk("cnt is %d\n", cnt);
-#endif
 	__raw_writel((__raw_readl(S3C_EINTCON0) & ~(0x7 << 20)) |
 		     (S3C_EXTINT_FALLEDGE << 20), S3C_EINTCON0);
 
-//	s3c_irqext_unmaskack(IRQ_EINT10);
+
 	__raw_writel(1UL << (IRQ_EINT10 - IRQ_EINT0), S3C_EINTPEND);
 	__raw_writel(__raw_readl(S3C_EINTMASK)&~(1UL << (IRQ_EINT10 - IRQ_EINT0)), S3C_EINTMASK);
 
@@ -665,9 +632,6 @@ static int s3c6410_pm_enter(suspend_state_t state)
 	unsigned int tmp;
 
 	/* ensure the debug is initialised (if enabled) */
-
-//	s3c6400_pm_debug_init();
-
 
 	if (state != PM_SUSPEND_MEM) {
 		printk(KERN_ERR PFX "error: only PM_SUSPEND_MEM supported\n");
@@ -722,8 +686,6 @@ static int s3c6410_pm_enter(suspend_state_t state)
 	tmp &= ~(0x61<<0);
 	__raw_writel(tmp, S3C_SLEEP_CFG);
 
-//	__raw_writel(0x2, S3C_SLPEN);
-
 	/* Clear WAKEUP_STAT register for next wakeup -jc.lee */
 	/* If this register do not be cleared, Wakeup will be failed */
 	tmp = __raw_readl(S3C_WAKEUP_STAT);
@@ -758,8 +720,6 @@ static int s3c6410_pm_enter(suspend_state_t state)
 
 	tmp = __raw_readl(S3C_EINTPEND);
 	__raw_writel(tmp, S3C_EINTPEND);
-
-	//s3c2410_pm_debug_init();
 
 	DBG("post sleep, preparing to return\n");
 

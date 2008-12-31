@@ -151,7 +151,7 @@ static struct platform_device *smdkc100_devices[] __initdata = {
 	&s3c_device_mfc,
 	&s3c_device_spi0,
 	&s3c_device_spi1,
-	&s3c_device_2d,
+	&s3c_device_g2d,
 	&s3c_device_keypad,
 	&s3c_device_smc911x,
 	&s3c_device_camif,

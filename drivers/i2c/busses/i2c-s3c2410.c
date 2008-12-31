@@ -80,8 +80,8 @@ struct s3c24xx_i2c {
 static struct s3c2410_platform_i2c s3c24xx_i2c_default_platform = {
 	.flags		= 0,
 	.slave_addr	= 0x10,
-	.bus_freq	= 200*1000,	/* org: 100k */
-	.max_freq	= 200*1000,	/* org: 400k */
+	.bus_freq	= 100*1000,
+	.max_freq	= 400*1000,
 	.sda_delay	= S3C2410_IICLC_SDA_DELAY5 | S3C2410_IICLC_FILTER_ON,
 };
 

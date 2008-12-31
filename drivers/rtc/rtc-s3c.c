@@ -163,6 +163,7 @@ static int s3c_rtc_gettime(struct device *dev, struct rtc_time *rtc_tm)
 static int s3c_rtc_settime(struct device *dev, struct rtc_time *tm)
 {
 	void __iomem *base = s3c_rtc_base;
+
 	int year = tm->tm_year - 100;
 
 	pr_debug("set time %02d.%02d.%02d %02d/%02d/%02d\n",
@@ -433,6 +434,7 @@ static int s3c_rtc_probe(struct platform_device *pdev)
 	struct rtc_device *rtc;
 	struct resource *res;
 	int ret;
+	unsigned char bcd_tmp,bcd_loop;
 
 	pr_debug("%s: probe=%p\n", __FUNCTION__, pdev);
 
@@ -499,6 +501,14 @@ static int s3c_rtc_probe(struct platform_device *pdev)
 	}
 
 	rtc->max_user_freq = S3C_MAX_CNT;
+
+	/* check rtc time */
+	for (bcd_loop = S3C2410_RTCSEC ; bcd_loop <= S3C2410_RTCYEAR ; bcd_loop +=0x4)
+	{
+		bcd_tmp = readb(s3c_rtc_base + bcd_loop);
+		if(((bcd_tmp & 0xf) > 0x9) || ((bcd_tmp & 0xf0) > 0x90))
+			writeb(0, s3c_rtc_base + bcd_loop);
+	}
 
 	platform_set_drvdata(pdev, rtc);
 	return 0;

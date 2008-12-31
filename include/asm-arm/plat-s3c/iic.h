@@ -21,12 +21,15 @@
 */
 
 struct s3c2410_platform_i2c {
+	int		bus_num;	/* bus number to use */
 	unsigned int	flags;
 	unsigned int	slave_addr;	/* slave address for controller */
 	unsigned long	bus_freq;	/* standard bus frequency */
 	unsigned long	max_freq;	/* max frequency for the bus */
 	unsigned long	min_freq;	/* min frequency for the bus */
 	unsigned int	sda_delay;	/* pclks (s3c2440 only) */
+
+	void	(*cfg_gpio)(struct platform_device *dev);
 };
 
 #endif /* __ASM_ARCH_IIC_H */

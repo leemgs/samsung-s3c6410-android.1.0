@@ -35,6 +35,7 @@
 #include <linux/platform_device.h>
 #include <linux/mtd/mtd.h>
 #include <linux/mtd/partitions.h>
+#include <linux/i2c.h>
 
 #include <asm/setup.h>
 #include <asm/mach/arch.h>
@@ -46,6 +47,9 @@
 #include <asm/io.h>
 #include <asm/irq.h>
 #include <asm/mach-types.h>
+
+#include <asm/plat-s3c/iic.h>
+#include <asm/plat-s3c/regs-iic.h>
 
 #include <asm/arch/gpio.h>
 #include <asm/plat-s3c/regs-serial.h>
@@ -145,6 +149,118 @@ static struct s3c2410_uartcfg smdk6410_uartcfgs[] = {
 
 };
 
+static struct resource s3c64xx_i2c0_resource[] = {
+	[0] = {
+		.start = S3C6400_PA_IIC0,
+		.end   = S3C6400_PA_IIC0 + S3C24XX_SZ_IIC - 1,
+		.flags = IORESOURCE_MEM,
+	},
+	[1] = {
+		.start = IRQ_IIC0,
+		.end   = IRQ_IIC0,
+		.flags = IORESOURCE_IRQ,
+	}
+};
+
+static struct platform_device s3c64xx_device_i2c0 = {
+	.name		= "s3c64xx-i2c",
+	.id		= 0,		/* This is so the driver gets forced to use bus 0. */
+	.num_resources	= ARRAY_SIZE(s3c64xx_i2c0_resource),
+	.resource	= s3c64xx_i2c0_resource,
+};
+
+static struct resource s3c64xx_i2c1_resource[] = {
+	[0] = {
+		.start = S3C6400_PA_IIC1,
+		.end   = S3C6400_PA_IIC1 + S3C24XX_SZ_IIC - 1,
+		.flags = IORESOURCE_MEM,
+	},
+	[1] = {
+		.start = IRQ_IIC1,
+		.end   = IRQ_IIC1,
+		.flags = IORESOURCE_IRQ,
+	}
+};
+
+static struct platform_device s3c64xx_device_i2c1 = {
+	.name		= "s3c64xx-i2c",
+	.id		= 1,		/* This is so the driver gets forced to use bus 0. */
+	.num_resources	= ARRAY_SIZE(s3c64xx_i2c1_resource),
+	.resource	= s3c64xx_i2c1_resource,
+};
+
+static struct s3c2410_platform_i2c default_i2c_data0 __initdata = {
+	.flags		= 0,
+	.slave_addr	= 0x10,
+	.bus_freq	= 100*1000,
+	.max_freq	= 400*1000,
+	.sda_delay	= S3C64XX_IICLC_SDA_DELAY5 | S3C64XX_IICLC_FILTER_ON,
+};
+
+void s3c_i2c0_cfg_gpio(struct platform_device *dev)
+{
+	s3c_gpio_cfgpin(S3C_GPB5, S3C_GPB5_I2C_SCL0);
+	s3c_gpio_cfgpin(S3C_GPB6, S3C_GPB6_I2C_SDA0);
+	s3c_gpio_pullup(S3C_GPB5, 2);
+	s3c_gpio_pullup(S3C_GPB6, 2);
+}
+
+void __init s3c_i2c0_set_platdata(struct s3c2410_platform_i2c *pd)
+{
+	struct s3c2410_platform_i2c *npd;
+
+	if (!pd)
+		pd = &default_i2c_data0;
+
+	npd = kmemdup(pd, sizeof(struct s3c2410_platform_i2c), GFP_KERNEL);
+	if (!npd)
+		printk(KERN_ERR "%s: no memory for platform data\n", __func__);
+	else if (!npd->cfg_gpio)
+		npd->cfg_gpio = s3c_i2c0_cfg_gpio;
+
+	s3c64xx_device_i2c0.dev.platform_data = npd;
+}
+
+static struct s3c2410_platform_i2c default_i2c_data1 __initdata = {
+	.flags		= 0,
+	.bus_num	= 1,
+	.slave_addr	= 0x10,
+	.bus_freq	= 100*1000,
+	.max_freq	= 400*1000,
+	.sda_delay	= S3C64XX_IICLC_SDA_DELAY5 | S3C64XX_IICLC_FILTER_ON,
+};
+
+void s3c_i2c1_cfg_gpio(struct platform_device *dev)
+{
+	s3c_gpio_cfgpin(S3C_GPB2, S3C_GPB2_I2C_SCL1);
+	s3c_gpio_cfgpin(S3C_GPB3, S3C_GPB3_I2C_SDA1);
+	s3c_gpio_pullup(S3C_GPB2, 2);
+	s3c_gpio_pullup(S3C_GPB3, 2);
+}
+
+void __init s3c_i2c1_set_platdata(struct s3c2410_platform_i2c *pd)
+{
+	struct s3c2410_platform_i2c *npd;
+
+	if (!pd)
+		pd = &default_i2c_data1;
+
+	npd = kmemdup(pd, sizeof(struct s3c2410_platform_i2c), GFP_KERNEL);
+	if (!npd)
+		printk(KERN_ERR "%s: no memory for platform data\n", __func__);
+	else if (!npd->cfg_gpio)
+		npd->cfg_gpio = s3c_i2c1_cfg_gpio;
+
+	s3c64xx_device_i2c1.dev.platform_data = npd;
+}
+
+static struct i2c_board_info i2c_devs0[] __initdata = {
+	{ I2C_BOARD_INFO("24c08", 0x50), },
+};
+
+static struct i2c_board_info i2c_devs1[] __initdata = {
+	{ I2C_BOARD_INFO("24c128", 0x57), },
+};
 
 /* Add devices as drivers are integrated */
 static struct platform_device *smdk6410_devices[] __initdata = {
@@ -153,7 +269,8 @@ static struct platform_device *smdk6410_devices[] __initdata = {
 	&s3c_device_iis,
 	&s3c_device_ts,
 	&s3c_device_adc,
-	&s3c_device_i2c,
+	&s3c64xx_device_i2c0,
+	&s3c64xx_device_i2c1,
 	&s3c_device_usb,
 	&s3c_device_usbgadget,
 	&s3c_device_usb_otghcd,
@@ -168,7 +285,7 @@ static struct platform_device *smdk6410_devices[] __initdata = {
 	&s3c_device_ide,
 	&s3c_device_spi0,
 	&s3c_device_spi1,
-	&s3c_device_2d,
+	&s3c_device_g2d,
 	&s3c_device_keypad,
 	&s3c_device_smc911x,
 	&s3c_device_camif,
@@ -299,6 +416,12 @@ static void smdk6410_set_qos(void)
 static void __init smdk6410_machine_init (void)
 {
 	smdk6410_smc911x_set();
+
+	s3c_i2c0_set_platdata(NULL);
+	s3c_i2c1_set_platdata(NULL);
+
+	i2c_register_board_info(0, i2c_devs0, ARRAY_SIZE(i2c_devs0));
+	i2c_register_board_info(1, i2c_devs1, ARRAY_SIZE(i2c_devs1));
 
 	platform_add_devices(smdk6410_devices, ARRAY_SIZE(smdk6410_devices));
 

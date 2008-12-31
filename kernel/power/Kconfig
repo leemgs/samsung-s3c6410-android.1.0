@@ -196,4 +196,15 @@ config APM_EMULATION
 	  anything, try disabling/enabling this option (or disabling/enabling
 	  APM in your BIOS).
 
-source "drivers/char/s3c-dvfs/Kconfig"
+menu "DVFS support"
+
+config S3C64XX_DVFS
+        tristate "Support for DVFS on SMDK64xx Board"
+        depends on CPU_S3C6400 || CPU_S3C6410
+
+config S3C24XX_DVFS
+        tristate "Support for DVFS on SMDK64xx Board"
+        depends on CPU_S3C2450 || CPU_S3C2416
+
+endmenu
+

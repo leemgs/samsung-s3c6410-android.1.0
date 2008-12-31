@@ -172,7 +172,7 @@ static struct platform_device *smdk6400_devices[] __initdata = {
 	&s3c_device_spi0,
 	&s3c_device_spi1,
 	&s3c_device_camif,
-	&s3c_device_2d,
+	&s3c_device_g2d,
 	&s3c_device_keypad,
 };
 

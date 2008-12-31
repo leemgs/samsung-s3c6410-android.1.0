@@ -434,8 +434,9 @@ s3c_serial_rx_chars(int irq, void *dev_id)
 			if (uerstat & S3C_UERSTAT_BREAK) {
 				dbg("break!\n");
 				port->icount.brk++;
+				flag = TTY_BREAK;
 				if (uart_handle_break(port))
-				    goto ignore_char;
+					goto recv_char;
 			}
 
 			if (uerstat & S3C_UERSTAT_FRAME)
@@ -451,11 +452,12 @@ s3c_serial_rx_chars(int irq, void *dev_id)
 				flag = TTY_PARITY;
 			else if (uerstat & ( S3C_UERSTAT_FRAME | S3C_UERSTAT_OVERRUN))
 				flag = TTY_FRAME;
+
+			uart_insert_char(port, uerstat, S3C_UERSTAT_OVERRUN, ch, flag);
 		}
 
-		if (uart_handle_sysrq_char(port, ch))
-			goto ignore_char;
-
+		uart_handle_sysrq_char(port, ch);
+	recv_char:
 		uart_insert_char(port, uerstat, S3C_UERSTAT_OVERRUN, ch, flag);
 
 	ignore_char:

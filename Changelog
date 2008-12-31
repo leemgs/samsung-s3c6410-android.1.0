@@ -1155,3 +1155,114 @@ dev-3-0-22: Jongpill Lee
 	Modofied Files:
 		M arch/arm/mach-s3c2416/mach-smdk2416.c
 		M arch/arm/mach-s3c2450/mach-smdk2450.c
+
+rel-3-0-2: Kyoungil Kim
+	- Offcial Release(08.11.28)
+
+
+dev-3-0-23: Ilho Lee
+	- /dev/mem interface D/D changed.
+
+	Modofied Files:
+		M drivers/char/s3c_mem.c
+		M drivers/char/s3c_mem.h
+
+dev-3-0-24: Ilho Lee
+	- 2D -> G2D renamed.
+
+	Modofied Files:
+		M arch/arm/plat-s3c24xx/devs.c
+		M include/asm-arm/plat-s3c24xx/devs.h
+
+
+dev-3-0-25: Jonghun Han 
+	- Added FIMD function(fb release)
+
+	Modified Files:
+		M drivers/video/s3c/s3cfb.c
+		M drivers/video/s3c/s3cfb.h
+		M drivers/video/s3c/s3cfb_fimd4x.c
+
+dev-3-0-26: Jinsung Yang
+	- Patch for s3c gpio routine
+
+	Modified files:
+		M arch/arm/plat-s3c24xx/gpio.c
+
+rel-3-0-3: Jinsung Yang
+	- Official Release (08.12.09)
+
+dev-3-0-27: Jinsung Yang
+	- Multi-channel i2c driver support for s3c64xx
+
+	Added files:
+		A drivers/i2c/busses/i2c-s3c64xx.c
+
+	Modified files:
+		M arch/arm/mach-s3c6410/mach-smdk6410.c
+		M arch/arm/plat-s3c24xx/devs.c
+		M drivers/i2c/busses/Kconfig
+		M drivers/i2c/busses/Makefile
+		M include/asm-arm/arch-s3c2410/irqs.h
+		M include/asm-arm/arch-s3c2410/map.h
+		M include/asm-arm/arch-s3c2410/regs-gpio.h
+		M include/asm-arm/plat-s3c/iic.h
+		M include/asm-arm/plat-s3c/regs-iic.h
+
+dev-3-0-28: jongpill Lee
+	- Added initial time setting function 
+
+	Modified Files:
+		M drivers/rtc/rtc-s3c.c
+
+dev-3-0-29: Jongpill Lee
+	- Patch for Break detection 
+		
+	Modofied Files:
+		M drivers/serial/s3c6400.c
+
+dev-3-0-30: Jongpill Lee
+	- Remove not useable files
+
+	Remove Files:
+		R arch/arm/mach-s3c6410/pm-s3c6410.c
+		R arch/arm/mach-s3c6410/pm-s3c6410.h 
+	Modified Files:
+		M arch/arm/plat-s3c64xx/pm.c
+
+dev-3-0-31: Jongpill Lee
+	- bug fixed about RTC on SMDK6410
+
+	Modified Files:
+		M drivers/rtc/rtc-s3c.c
+
+dev-3-0-32: Jongpill Lee
+	- Remove dvfs file to arch/arm/plat-s3cxxxx
+
+	Added Files:
+		A arch/arm/plat-s3c24xx/s3c24xx-dvfs.c
+		A arch/arm/plat-s3c24xx/s3c24xx-dvfs.h
+		A arch/arm/plat-s3c64xx/s3c64xx-dvfs.c
+		A arch/arm/plat-s3c64xx/s3c64xx-dvfs.h
+	
+	Removed Files:
+		R drivers/char/s3c-dvfs/Kconfig
+		R drivers/char/s3c-dvfs/Makefile
+		R drivers/char/s3c-dvfs/s3c-dvfs.c
+		R drivers/char/s3c-dvfs/s3c-dvfs.h
+	
+	Modified Files:
+		M arch/arm/plat-s3c24xx/Kconfig
+		M arch/arm/plat-s3c24xx/Makefile
+		M arch/arm/plat-s3c64xx/Makefile
+
+
+dev-3-0-33: Jongpill Lee
+	- Buf fixed on DVFS
+
+	Modified Files:
+		M drivers/char/Makefile
+		M kernel/power/Kconfig
+
+rel-3-0-4: Kyoungil Kim
+	- Offcial Release(08.12.24)

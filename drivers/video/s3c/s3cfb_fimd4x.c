@@ -812,9 +812,6 @@ int s3cfb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg)
 		break;
 
 	case S3C_FB_OSD_STOP:
-		if (fbi->win_id > 0)
-			s3cfb_set_alpha_level(fbi, S3C_FB_MAX_ALPHA_LEVEL, 1);
-
 		s3cfb_onoff_win(fbi, OFF);
 		break;
 
@@ -1035,11 +1032,11 @@ int s3cfb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg)
 			return -EFAULT;
 
 		break;
-
-	case S3C_FB_CHANGE_REQ:
-		s3cfb_change_buff(0, (int) arg);
-		break;
 #endif
+
+	case S3C_FB_RELEASE_DEFAULT_FB:
+		s3cfb_unmap_video_memory(fbi);
+		break;
 
 	default:
 		return -EINVAL;

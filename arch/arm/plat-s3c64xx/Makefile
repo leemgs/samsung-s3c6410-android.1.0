@@ -26,3 +26,4 @@ obj-$(CONFIG_S3C_ADC)		+= adc-s3c64xx.o
 obj-$(CONFIG_MACH_SMDK)		+= ../plat-s3c24xx/common-smdk.o
 obj-$(CONFIG_PM)		+= pm.o
 obj-$(CONFIG_PM)		+= sleep.o
+obj-$(CONFIG_S3C64XX_DVFS)	+= s3c64xx-dvfs.o

@@ -42,7 +42,7 @@ config S3C2410_DMA_DEBUG
 
 config S3C24XX_ADC
         bool "S3C24XX ADC Driver"
-        depends on CPU_S3C2443 || CPU_S3C2450
+        depends on CPU_S3C2443 || CPU_S3C2450 || CPU_S3C2416
         help
           ADC (A/D Conversion) driver for Samsung S3C2443/2450.
 

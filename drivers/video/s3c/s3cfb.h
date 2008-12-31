@@ -130,6 +130,9 @@ extern int s3c6410_timer_setup (int channel, int usec, unsigned long g_tcnt, uns
 #define S3C_FB_SET_NEXT_FB_INFO		_IOW ('F', 320, s3c_fb_next_info_t)
 #define S3C_FB_GET_CURR_FB_INFO		_IOR ('F', 321, s3c_fb_next_info_t)
 
+#define S3C_FB_RELEASE_DEFAULT_FB	_IO  ('F', 322)
+
+
 /*
  *  structures
  */
@@ -496,6 +499,7 @@ extern void s3cfb_spi_lcd_dseri(int ch, int value);
 extern void s3cfb_spi_lcd_dclk(int ch, int value);
 extern void s3cfb_spi_set_lcd_data(int ch);
 extern void s3cfb_pre_init(void);
+extern void s3cfb_unmap_video_memory(s3c_fb_info_t *fbi);
 
 #endif
 

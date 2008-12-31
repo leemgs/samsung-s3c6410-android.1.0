@@ -28,4 +28,5 @@ obj-$(CONFIG_PM)		+= pm.o
 obj-$(CONFIG_PM)		+= sleep.o
 obj-$(CONFIG_S3C2410_DMA)	+= dma.o
 obj-$(CONFIG_MACH_SMDK)		+= common-smdk.o
-obj-$(CONFIG_S3C64XX_ADC)       += adc-s3c24xx.o
+obj-$(CONFIG_S3C24XX_ADC)       += adc-s3c24xx.o
+obj-$(CONFIG_S3C24XX_DVFS)	+= s3c24xx-dvfs.o
