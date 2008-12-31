@@ -1123,15 +1123,6 @@ static int __init android_power_init(void)
 		ret = -ENOMEM;
 		goto err2;
 	}
-// 2008.12.10 invain: I modified kobejct api to support sysfs.
-//printk(KERN_WARNING "power.c: android_power_init - kobject_create_and_add before \n");
-// 		android_power_subsys = kobject_create_and_add("android_power", NULL);
-//printk(KERN_WARNING "power.c: android_power_init - kobject_create_and_add after \n");
-//	if (android_power_subsys == NULL) {
-//		printk("android_power_init: subsystem_register failed\n");
-//		ret = -ENOMEM;
-//		goto err3;
-//	}
 
         //printk(KERN_WARNING "power.c: android_power_init -subsystem_register before \n");
         ret = subsystem_register(android_power_subsys);
@@ -1227,7 +1218,6 @@ EXPORT_SYMBOL(android_lock_suspend);
 EXPORT_SYMBOL(android_lock_suspend_auto_expire);
 EXPORT_SYMBOL(android_unlock_suspend);
 EXPORT_SYMBOL(android_power_wakeup);
-EXPORT_SYMBOLGPL(android_power_subsys);
 EXPORT_SYMBOL(android_register_early_suspend);
 EXPORT_SYMBOL(android_unregister_early_suspend);
 
