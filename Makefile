@@ -1,7 +1,7 @@
 VERSION = 2
 PATCHLEVEL = 6
 SUBLEVEL = 24
-EXTRAVERSION = .24-26-lgs-android
+EXTRAVERSION = .back-21-26-lgs-android
 EXTRAVERSION += $(shell echo ''; \
 			sed -n '/[dr][e][vl]-*[0-9]-*[0-9]-*[0-9]/p' Changelog | \
 			awk 'BEGIN {FS=":"} {last=$$1} END {print last}')
@@ -192,6 +192,9 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/i386/ -e s/sun4u/sparc64/ \
 # Alternatively CROSS_COMPILE can be set in the environment.
 # Default value for CROSS_COMPILE is not to prefix executables
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
+
+# Korea Toolchain(Binary) for s3c64X0 core
+# http://www.kandroid.org/~open/devtools/kandroid-1.1.2.1-20080530.glibc.tgz
 
 ARCH            := arm
 CROSS_COMPILE   := arm-android-linux-gnueabi-
