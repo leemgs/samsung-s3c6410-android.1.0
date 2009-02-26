@@ -1,7 +1,7 @@
 VERSION = 2
 PATCHLEVEL = 6
 SUBLEVEL = 24
-EXTRAVERSION = .back-21-26-lgs-android
+EXTRAVERSION = .bet-21-26-lgs-android
 NAME = Err Metey! A Heury Beelge-a Ret!
 
 # *DOCUMENTATION*
@@ -190,8 +190,8 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/i386/ -e s/sun4u/sparc64/ \
 # Default value for CROSS_COMPILE is not to prefix executables
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
 
-# Korea Toolchain(Binary) for s3c64X0 core
-# http://www.kandroid.org/~open/devtools/kandroid-1.1.2.1-20080530.glibc.tgz
+# Toolchain(Binary) for s3c64X0(arm1176) core by GeunSik Lim [invain]
+# http://www.intomail.net/~git/devtools/kandroid-1.1.2.1-20080530.glibc.tgz  (ToolChain)
 
 ARCH            := arm
 CROSS_COMPILE   := arm-android-linux-gnueabi-
